@@ -1,32 +1,34 @@
 'use strict'
 
-const switcher = document.querySelector('.btn');
+let participants = [];
+let pairs = [];
+let nameInput = document.getElementById("nameInput");
+let participantsDisplay = document.getElementById("participantsDisplay");
+let pairsDisplay = document.getElementById("pairsDisplay");
 
-switcher.addEventListener('click', function() {
-    document.body.classList.toggle('dark-theme')
-
-    var className = document.body.className;
-    if(className == "light-theme") {
-        this.textContent = "Dark";
+function displayNames(namesToDisplay, diplayDiv) {
+    let displayHTML = '<ul>';
+    for (let name of namesToDisplay) {
+        displayHTML += '<li>' + name +'</li>';
     }
-    else {
-        this.textContent = "Light";
+
+    displayHTML += '</ul>';
+    diplayDiv.innerHTML = displayHTML;
+}
+
+function addName() {
+    participants.push(nameInput.value);
+    nameInput.value = '';
+    displayNames(participants, participantsDisplay);
+}
+
+// Pseudo Linked List pairing its neighbor and last gets first
+function calculatePairs() {
+    let shuffled = participants.slice().sort(function() { return 0.5 - Math.random(); });
+ 
+    for (let i = 0; i < shuffled.length - 1; i++) {
+        pairs.push([shuffled[i], shuffled[i+1]]);
     }
-
-    console.log('current class name: ' + className);
-});
-
-const pairBtn = document.getElementById('pairBtn');
-
-pairBtn.addEventListener('click', function() {
-    var participants = document.getElementById("participants").value.split(/\r?\n/);
-    var shuffle1 = participants.slice().sort(function() { return 0.5 - Math.random(); });
-    var shuffle2 = participants.slice().sort(function() { return 0.5 - Math.random(); });
-
-    while (shuffle1.length) {
-        var name1 = shuffle1.pop(),
-            name2 = shuffle2[0] == name1 ? shuffle2.pop() : shuffle2.shift();
-
-        console.log(name1 + " buys gifts to " + name2);
-    }
-});
+    pairs.push([shuffled.pop(), shuffled[0]]);
+    displayNames(pairs, pairsDisplay);
+}
