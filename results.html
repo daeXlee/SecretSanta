@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Secret Santa</title>
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <h1>Secret Santa Results</h1>
+        <div>
+            <div id="assignedPerson"></div>
+        </div>
+        <script>
+            let query = window.location.search.substring(1);
+            let variables = query.split('&');
+            let name = decodeURIComponent(variables[0].split('=')[1]);
+            let pairResult = decodeURIComponent(variables[1].split('=')[1]);
+            
+            document.getElementById('assignedPerson').innerText = name + " has to buy gifts for " + pairResult;
+
+        </script>
+    </body>
+</html>
